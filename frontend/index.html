@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="He & She — Premium Indian fashion brand. Shop men's, women's, kids' clothing, ethnic wear, activewear and accessories. Free delivery above ₹999." />
+    <meta name="theme-color" content="#0F0F0F" />
+    <meta property="og:title" content="He & She — Wear the Difference" />
+    <meta property="og:description" content="Premium fashion for the modern wardrobe. Shop new arrivals, bestsellers, and exclusive collections." />
+    <meta property="og:type" content="website" />
+    <title>He & She | Wear the Difference</title>
+  </head>
+  <body>
+    <script>
+      window.addEventListener('error', function(e) {
+        document.body.innerHTML += '<pre style="color:red;padding:20px;font-size:12px">INDEX.HTML CAUGHT ERROR:<br/>' + e.message + '<br/>' + (e.error ? e.error.stack : '') + '</pre>';
+      });
+      window.addEventListener('unhandledrejection', function(e) {
+        document.body.innerHTML += '<pre style="color:red;padding:20px;font-size:12px">INDEX.HTML CAUGHT PROMISE REJECTION:<br/>' + e.reason + '</pre>';
+      });
+    </script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

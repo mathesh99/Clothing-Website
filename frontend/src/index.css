@@ -1,0 +1,212 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply font-sans text-velour-charcoal bg-white;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3 {
+    @apply font-display;
+  }
+
+  h4, h5, h6 {
+    @apply font-sans font-semibold;
+  }
+
+  img {
+    @apply block;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  a {
+    @apply text-inherit no-underline;
+  }
+
+  input, textarea, select {
+    @apply font-sans;
+  }
+
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #F5F0E8;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #D4D4D4;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background: #C9A96E33;
+  }
+}
+
+@layer components {
+  /* ── Buttons ────────────────────────────────── */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2
+           bg-velour-black text-white
+           px-6 py-3 text-sm font-medium tracking-wider uppercase
+           transition-all duration-200
+           hover:bg-velour-charcoal active:scale-[0.98]
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2
+           bg-transparent text-velour-black
+           border border-velour-black
+           px-6 py-3 text-sm font-medium tracking-wider uppercase
+           transition-all duration-200
+           hover:bg-velour-black hover:text-white active:scale-[0.98]
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2
+           bg-transparent text-velour-charcoal
+           px-4 py-2 text-sm font-medium
+           transition-all duration-200
+           hover:text-velour-black;
+  }
+
+  .btn-gold {
+    @apply inline-flex items-center justify-center gap-2
+           bg-velour-gold text-white
+           px-6 py-3 text-sm font-medium tracking-wider uppercase
+           transition-all duration-200
+           hover:bg-velour-gold-dark active:scale-[0.98]
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  /* ── Form Elements ────────────────────────── */
+  .form-input {
+    @apply w-full px-4 py-3
+           border border-velour-light-grey
+           text-sm text-velour-charcoal
+           placeholder:text-velour-light-grey
+           focus:outline-none focus:border-velour-black
+           transition-colors duration-200;
+  }
+
+  .form-label {
+    @apply block text-xs font-medium tracking-wider uppercase text-velour-charcoal mb-2;
+  }
+
+  .form-error {
+    @apply text-xs text-velour-error mt-1;
+  }
+
+  /* ── Card ─────────────────────────────────── */
+  .card {
+    @apply bg-white border border-velour-ivory;
+  }
+
+  /* ── Badge ────────────────────────────────── */
+  .badge {
+    @apply inline-flex items-center px-2 py-0.5 text-2xs font-medium tracking-wider uppercase;
+  }
+
+  .badge-gold {
+    @apply badge bg-velour-gold text-white;
+  }
+
+  .badge-black {
+    @apply badge bg-velour-black text-white;
+  }
+
+  .badge-outline {
+    @apply badge border border-velour-light-grey text-velour-grey;
+  }
+
+  /* ── Skeleton ─────────────────────────────── */
+  .skeleton {
+    @apply bg-gradient-to-r from-velour-ivory via-white to-velour-ivory
+           animate-shimmer;
+    background-size: 2000px 100%;
+  }
+
+  /* ── Section ──────────────────────────────── */
+  .section-title {
+    @apply font-display text-2xl md:text-3xl font-normal tracking-tight text-velour-black;
+  }
+
+  .section-subtitle {
+    @apply text-sm text-velour-grey tracking-wider uppercase;
+  }
+
+  /* ── Product Card ─────────────────────────── */
+  .product-card {
+    @apply relative bg-white cursor-pointer;
+  }
+
+  .product-card-image {
+    @apply relative overflow-hidden bg-velour-ivory aspect-[3/4];
+  }
+
+  .product-card-image img {
+    @apply w-full h-full object-cover transition-transform duration-500;
+  }
+
+  /* ── Admin ────────────────────────────────── */
+  .admin-stat-card {
+    @apply bg-white border border-velour-ivory p-6;
+  }
+
+  .admin-table th {
+    @apply text-xs font-medium tracking-wider uppercase text-velour-grey
+           border-b border-velour-ivory px-4 py-3 text-left bg-velour-off-white;
+  }
+
+  .admin-table td {
+    @apply px-4 py-3 text-sm text-velour-charcoal border-b border-velour-ivory;
+  }
+
+  .admin-table tr:hover td {
+    @apply bg-velour-off-white;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .writing-mode-vertical {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+  }
+}
