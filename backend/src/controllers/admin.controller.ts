@@ -476,7 +476,7 @@ export const adminController = {
         select: { clothingType: true },
         distinct: ['clothingType'],
       });
-      const dbList = dbTypes.map((p) => p.clothingType as string).filter(Boolean);
+      const dbList = dbTypes.map((p: any) => p.clothingType as string).filter(Boolean);
       const merged = Array.from(new Set([...saved, ...dbList])).sort();
       sendSuccess(res, merged, 'Clothing types retrieved');
     } catch (err) {

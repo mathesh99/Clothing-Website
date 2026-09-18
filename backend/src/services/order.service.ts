@@ -33,7 +33,7 @@ export const orderService = {
 
     // Calculate totals on backend (NEVER trust frontend)
     let subtotal = 0;
-    const orderItems = [];
+    const orderItems: any[] = [];
 
     for (const item of cart.items) {
       const variant = await prisma.productVariant.findUnique({
@@ -93,7 +93,7 @@ export const orderService = {
     // Generate order number
     const orderNumber = `VLR${Date.now()}`;
 
-    const order = await prisma.$transaction(async (tx) => {
+    const order = await prisma.$transaction(async (tx: any) => {
       // Create order
       const newOrder = await tx.order.create({
         data: {

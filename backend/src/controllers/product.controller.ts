@@ -46,7 +46,7 @@ export const productController = {
 
   async getProductBySlug(req: Request, res: Response, next: NextFunction) {
     try {
-      const product = await productService.getProductBySlug(req.params.slug);
+      const product = await productService.getProductBySlug(req.params.slug as string);
       sendSuccess(res, product, 'Product retrieved');
     } catch (err) {
       next(err);
