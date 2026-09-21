@@ -1,27 +1,30 @@
 import { config } from '../config';
 import { logger } from './logger';
-import { Resend } from 'resend';
+import * as brevo from '@getbrevo/brevo';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const apiInstance = new brevo.TransactionalEmailsApi();
+apiInstance.setApiKey(
+  brevo.TransactionalEmailsApiApiKeys.apiKey, 
+  process.env.BREVO_API_KEY || ''
+);
 
 export async function sendEmail(options: {
   to: string;
   subject: string;
   html: string;
 }): Promise<void> {
-  if (!process.env.RESEND_API_KEY) {
-    logger.warn('Resend API key not configured — skipping send');
+  if (!process.env.BREVO_API_KEY) {
+    logger.warn('Brevo API key not configured — skipping send');
     return;
   }
   try {
-    const { error } = await resend.emails.send({
-      from: 'onboarding@resend.dev',
-      to: options.to,
-      subject: options.subject,
-      html: options.html,
-    });
-    
-    if (error) throw new Error(error.message);
+    const sendSmtpEmail = new brevo.SendSmtpEmail();
+    sendSmtpEmail.subject = options.subject;
+    sendSmtpEmail.htmlContent = options.html;
+    sendSmtpEmail.sender = { name: "He & She", email: process.env.SMTP_USER || 'hello@heandshe.com' };
+    sendSmtpEmail.to = [{ email: options.to }];
+
+    await apiInstance.sendTransacEmail(sendSmtpEmail);
     logger.info(`Email sent to ${options.to}`);
   } catch (error) {
     logger.error('Failed to send email:', error);

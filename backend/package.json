@@ -21,6 +21,7 @@
   "author": "VELOUR",
   "license": "ISC",
   "dependencies": {
+    "@getbrevo/brevo": "^6.0.3",
     "@prisma/client": "^6.19.3",
     "@types/uuid": "^10.0.0",
     "bcryptjs": "^3.0.3",
@@ -37,7 +38,6 @@
     "multer": "^2.3.0",
     "razorpay": "^2.9.8",
     "redis": "^6.2.1",
-    "resend": "^6.28.1",
     "uuid": "^14.0.2",
     "winston": "^3.19.0",
     "zod": "^4.5.4"
