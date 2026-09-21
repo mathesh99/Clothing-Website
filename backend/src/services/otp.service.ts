@@ -51,9 +51,9 @@ export const otpService = {
       });
 
       console.log(`Live OTP email sent successfully to ${email}`);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Failed to send OTP email:', error);
-      throw new BadRequestError('Failed to send verification email. Please try again later.');
+      throw new BadRequestError(`SMTP Error: ${error.message}`);
     }
     
     return { message: 'OTP sent successfully' };
