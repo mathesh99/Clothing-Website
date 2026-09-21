@@ -11,6 +11,7 @@ const transporter = nodemailer.createTransport({
     pass: process.env.SMTP_PASS,
   },
   connectionTimeout: 10000,
+  family: 4, // Force IPv4 (Render free tier fails on IPv6)
 });
 export const otpService = {
   async sendRegistrationOtp(email: string) {
