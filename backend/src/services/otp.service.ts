@@ -48,7 +48,7 @@ export const otpService = {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
+        const errorData = await response.json() as any;
         throw new Error(errorData.message || 'Failed to send email');
       }
 

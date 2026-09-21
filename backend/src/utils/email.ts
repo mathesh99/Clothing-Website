@@ -27,7 +27,7 @@ export async function sendEmail(options: {
     });
 
     if (!response.ok) {
-      const errorData = await response.json();
+      const errorData = await response.json() as any;
       throw new Error(errorData.message || 'Failed to send email');
     }
     logger.info(`Email sent to ${options.to}`);
