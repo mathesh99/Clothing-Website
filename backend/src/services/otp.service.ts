@@ -1,12 +1,5 @@
 import { prisma } from '../config/database';
 import { BadRequestError } from '../utils/errors';
-import * as brevo from '@getbrevo/brevo';
-
-const apiInstance = new brevo.TransactionalEmailsApi();
-apiInstance.setApiKey(
-  brevo.TransactionalEmailsApiApiKeys.apiKey, 
-  process.env.BREVO_API_KEY || ''
-);
 
 export const otpService = {
   async sendRegistrationOtp(email: string) {
@@ -32,22 +25,32 @@ export const otpService = {
 
     // Send the live email
     try {
-      const sendSmtpEmail = new brevo.SendSmtpEmail();
-      sendSmtpEmail.subject = "Your He & She Registration Code";
-      sendSmtpEmail.htmlContent = `
-        <div style="font-family: Arial, sans-serif; text-align: center; padding: 20px;">
-          <h2>Welcome to He & She!</h2>
-          <p>Your one-time verification code is:</p>
-          <h1 style="letter-spacing: 5px; color: #333; background: #f4f4f4; padding: 15px; border-radius: 8px; display: inline-block;">${otp}</h1>
-          <p>This code will expire in 10 minutes.</p>
-        </div>
-      `;
-      // Brevo requires the sender email to be verified in their dashboard.
-      // process.env.SMTP_USER represents the email you verify in Brevo (e.g. premanadar999@gmail.com).
-      sendSmtpEmail.sender = { name: "He & She", email: process.env.SMTP_USER || 'hello@heandshe.com' };
-      sendSmtpEmail.to = [{ email }];
+      const response = await fetch('https://api.brevo.com/v3/smtp/email', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'api-key': process.env.BREVO_API_KEY || ''
+        },
+        body: JSON.stringify({
+          sender: { name: "He & She", email: process.env.SMTP_USER || 'hello@heandshe.com' },
+          to: [{ email }],
+          subject: "Your He & She Registration Code",
+          htmlContent: `
+            <div style="font-family: Arial, sans-serif; text-align: center; padding: 20px;">
+              <h2>Welcome to He & She!</h2>
+              <p>Your one-time verification code is:</p>
+              <h1 style="letter-spacing: 5px; color: #333; background: #f4f4f4; padding: 15px; border-radius: 8px; display: inline-block;">${otp}</h1>
+              <p>This code will expire in 10 minutes.</p>
+            </div>
+          `
+        })
+      });
 
-      await apiInstance.sendTransacEmail(sendSmtpEmail);
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to send email');
+      }
 
       console.log(`Live OTP email sent successfully to ${email}`);
       console.log(`\n=================================================`);

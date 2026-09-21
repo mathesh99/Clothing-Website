@@ -1,12 +1,5 @@
 import { config } from '../config';
 import { logger } from './logger';
-import * as brevo from '@getbrevo/brevo';
-
-const apiInstance = new brevo.TransactionalEmailsApi();
-apiInstance.setApiKey(
-  brevo.TransactionalEmailsApiApiKeys.apiKey, 
-  process.env.BREVO_API_KEY || ''
-);
 
 export async function sendEmail(options: {
   to: string;
@@ -18,13 +11,25 @@ export async function sendEmail(options: {
     return;
   }
   try {
-    const sendSmtpEmail = new brevo.SendSmtpEmail();
-    sendSmtpEmail.subject = options.subject;
-    sendSmtpEmail.htmlContent = options.html;
-    sendSmtpEmail.sender = { name: "He & She", email: process.env.SMTP_USER || 'hello@heandshe.com' };
-    sendSmtpEmail.to = [{ email: options.to }];
+    const response = await fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'api-key': process.env.BREVO_API_KEY || ''
+      },
+      body: JSON.stringify({
+        sender: { name: "He & She", email: process.env.SMTP_USER || 'hello@heandshe.com' },
+        to: [{ email: options.to }],
+        subject: options.subject,
+        htmlContent: options.html
+      })
+    });
 
-    await apiInstance.sendTransacEmail(sendSmtpEmail);
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Failed to send email');
+    }
     logger.info(`Email sent to ${options.to}`);
   } catch (error) {
     logger.error('Failed to send email:', error);
