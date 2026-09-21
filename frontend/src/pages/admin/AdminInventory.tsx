@@ -78,12 +78,12 @@ export default function AdminInventory() {
                           <input
                             type="number"
                             min="0"
-                            value={editing.stock}
+                            value={editing?.stock || 0}
                             onChange={(e) => setEditing({ id: variant.id, stock: parseInt(e.target.value) || 0 })}
                             className="form-input py-1.5 w-20 text-sm"
                           />
                           <button
-                            onClick={() => updateMutation.mutate({ id: variant.id, stock: editing.stock })}
+                            onClick={() => updateMutation.mutate({ id: variant.id, stock: editing?.stock || 0 })}
                             className="p-1.5 bg-velour-black text-white"
                           >
                             <Check size={14} />

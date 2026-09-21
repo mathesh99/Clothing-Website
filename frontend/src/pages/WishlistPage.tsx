@@ -1,24 +1,16 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
-import { Heart, ShoppingBag } from 'lucide-react';
+import { Heart } from 'lucide-react';
 import { wishlistService } from '../services';
 import ProductCard from '../components/product/ProductCard';
-import toast from 'react-hot-toast';
 
 export default function WishlistPage() {
-  const queryClient = useQueryClient();
   const { data, isLoading } = useQuery({
     queryKey: ['wishlist'],
     queryFn: () => wishlistService.getWishlist(),
   });
 
   const items = data?.data?.data?.items || [];
-
-  const removeMutation = useMutation({
-    mutationFn: (productId: string) => wishlistService.removeItem(productId),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['wishlist'] }),
-    onError: () => toast.error('Failed to remove item'),
-  });
 
   if (isLoading) return (
     <div className="max-w-5xl mx-auto px-4 py-12 grid grid-cols-2 md:grid-cols-4 gap-6">

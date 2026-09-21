@@ -1,9 +1,8 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Trash2, Minus, Plus, Tag, ShoppingBag, ArrowRight } from 'lucide-react';
 import { cartService, couponService } from '../services';
-import { useCartStore } from '../store/cartStore';
 import { useAuthStore } from '../store/authStore';
 import toast from 'react-hot-toast';
 
@@ -13,8 +12,6 @@ export default function CartPage() {
   const [couponLoading, setCouponLoading] = useState(false);
   const { isAuthenticated } = useAuthStore();
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
-
   const { data, isLoading } = useQuery({
     queryKey: ['cart'],
     queryFn: () => cartService.getCart(),
