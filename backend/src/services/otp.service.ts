@@ -33,7 +33,7 @@ export const otpService = {
           'api-key': process.env.BREVO_API_KEY || ''
         },
         body: JSON.stringify({
-          sender: { name: "He & She", email: process.env.SMTP_USER || 'hello@heandshe.com' },
+          sender: { name: "He & She", email: 'matheshnadar7@gmail.com' },
           to: [{ email }],
           subject: "Your He & She Registration Code",
           htmlContent: `
