@@ -1,10 +1,14 @@
 import { prisma } from '../config/database';
 import { BadRequestError } from '../utils/errors';
-import { Resend } from 'resend';
+import nodemailer from 'nodemailer';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
-
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS,
+  },
+});
 export const otpService = {
   async sendRegistrationOtp(email: string) {
     // Generate a 6-digit OTP
@@ -29,8 +33,8 @@ export const otpService = {
 
     // Send the live email
     try {
-      const { data, error } = await resend.emails.send({
-        from: 'onboarding@resend.dev',
+      await transporter.sendMail({
+        from: `"He & She" <${process.env.SMTP_USER}>`,
         to: email,
         subject: 'Your He & She Registration Code',
         html: `
@@ -43,14 +47,7 @@ export const otpService = {
         `,
       });
 
-      if (error) {
-        console.error('Resend API Error:', error);
-        throw new Error(error.message);
-      }
       console.log(`Live OTP email sent successfully to ${email}`);
-      console.log(`\n=================================================`);
-      console.log(`🔑 DEV MODE: The OTP for ${email} is: ${otp}`);
-      console.log(`=================================================\n`);
     } catch (error) {
       console.error('Failed to send OTP email:', error);
       throw new BadRequestError('Failed to send verification email. Please try again later.');
